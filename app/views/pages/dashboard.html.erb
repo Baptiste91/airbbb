@@ -1,0 +1,13 @@
+<div class="container">
+  <h1>Mes demandes</h1>
+  <% @bookings.each do |booking| %>
+    <%= booking %><%= booking.status %>
+  <% end  %>
+
+  <h1>Les bookings sur mes produits</h1>
+  <% @products.each do |product| %>
+    <% product.bookings.each do |demandes| %>
+      <%= demandes.status %><%= button_to "accept", booking_accept_path(demandes), class: 'btn btn-primary' %><%= button_to "decline", booking_decline_path(demandes),class: 'btn btn-danger' %>
+    <% end %>
+  <% end  %>
+</div>

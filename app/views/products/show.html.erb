@@ -1,0 +1,43 @@
+<%= @product.name %>
+<%= @product.price %>
+
+<div class="container">
+  <div data-controller="dynamic-booking-price" data-dynamic-booking-price-price-value="<%= @product.price%>">
+    <%= simple_form_for [@product, Booking.new()],
+                        html: {
+                          data: {
+                            controller: 'flatpickr',
+                            flatpickr_dates_value: @product.flatpickr_booked_dates_object
+                          }
+                        } do |f| %>
+
+      <%= f.input :start_date,
+                  as: :string,
+                  label: false,
+                  input_html: {
+                    class: 'd-none',
+                    data: {
+                      flatpickr_target: 'startDateInput',
+                      dynamic_booking_price_target: 'startDateInput',
+                      action: 'change->dynamic-booking-price#updatePrice'
+        } } %>
+        <%= f.input :end_date,
+                    as: :string,
+                    label: false,
+                    input_html: {
+                      class: 'd-none',
+                      data: {
+                        flatpickr_target: 'endDateInput',
+                        dynamic_booking_price_target: 'endDateInput',
+                        action: 'change->dynamic-booking-price#updatePrice'
+                      }
+          } %>
+
+      <%= f.submit 'Book now!', class: 'btn btn-primary' %>
+    <% end %>
+    <p>
+    <!-- target the HTML tag that will display the dynamic price -->
+    Total price: <span data-dynamic-booking-price-target="priceHolder"><%= @product.price %></span> €
+    </p>
+  </div>
+</div>
