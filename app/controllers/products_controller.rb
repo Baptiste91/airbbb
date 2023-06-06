@@ -2,6 +2,7 @@ class ProductsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
   def index
     @products = Product.all
+    @product = Product.new
   end
 
   def show
@@ -11,16 +12,16 @@ class ProductsController < ApplicationController
 
   def new
     @product = Product.new
-
   end
 
   def create
+    @products = Product.all
     @product = Product.new(product_params)
     @product.user = current_user
     if @product.save
       redirect_to product_path(@product)
     else
-      render :new
+      render 'products/index', status: :unprocessable_entity
     end
   end
 

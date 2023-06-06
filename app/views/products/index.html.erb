@@ -10,14 +10,16 @@
   </div>
 
 
-  <%= link_to "Add a new product", new_product_path, class: "btn btn-primary"  %>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Add new product
+  </button>
 </div>
 
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+<%# <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
   Launch demo modal
-</button>
+</button> %>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -30,7 +32,11 @@
         </button>
       </div>
       <div class="modal-body">
-        ...
+        <%= simple_form_for @product do |f| %>
+          <%= f.input :name %>
+          <%= f.input :price %>
+          <%= f.submit "Submit", class:"btn btn-outline-primary"%>
+        <% end %>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -39,3 +45,10 @@
     </div>
   </div>
 </div>
+
+
+<% if @product.errors.any? %>
+  <script>
+    $('#exampleModal').modal('show');
+  </script>
+<% end %>
